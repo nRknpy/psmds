@@ -57,31 +57,6 @@ print("alpha (scale):", model_euc.scale_)
 
 ---
 
-## Plotting (Matplotlib / Plotly)
-
-The library exposes both **functional** plotting helpers and **backend-agnostic dispatchers**.
-
-~~~python
-from psmds import (
-    plot_sphere3d, plot_euclid3d,         # Matplotlib helpers (return fig, ax)
-    plotly_sphere3d, plotly_euclid3d,     # Plotly helpers (return go.Figure)
-    scatter_sphere3d, scatter_euclid3d    # Dispatchers: backend="matplotlib"|"plotly"
-)
-
-# Matplotlib
-fig, ax = plot_sphere3d(Y_sph, normalize=True, title="S^2 (angles)")
-
-# Plotly (interactive)
-fig = plotly_euclid3d(Y_euc, title="R^3 (chordal)")
-
-# Or via dispatchers
-fig = scatter_sphere3d(Y_sph, backend="plotly", title="S^2 interactive")
-~~~
-
-> The sphere plots draw a unit circle/sphere as a reference surface when applicable.
-
----
-
 ## Example scripts (`examples/`)
 
 Each script builds a **self-contained** synthetic dataset and evaluates both targets without visualization:
