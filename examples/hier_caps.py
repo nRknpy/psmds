@@ -4,6 +4,7 @@ import numpy as np
 from numpy.linalg import norm
 from psmds import ParametricSphericalMDS
 from pathlib import Path
+import matplotlib.pyplot as plt
 
 from visualize import scatter_sphere3d, scatter_euclid3d, scatter_sphere2d, scatter_euclid2d
 
@@ -76,18 +77,30 @@ def run(target, n_components, seed=13):
     
     if n_components == 3:
         if t == 'sphere':
-            fig = scatter_sphere3d(Y)
-            fig.savefig(img_path / 'hier_caps_S^2.png')
+            fig = scatter_sphere3d(Y, backend='plotly')
+            if isinstance(fig, plt.Figure):
+                fig.savefig(img_path / 'hier_caps_S^2.png')
+            else:
+                fig.write_html(img_path / 'hier_caps_S^2.html')
         else:
-            fig = scatter_euclid3d(Y)
-            fig.savefig(img_path / 'hier_caps_R^3.png')
+            fig = scatter_euclid3d(Y, backend='plotly')
+            if isinstance(fig, plt.Figure):
+                fig.savefig(img_path / 'hier_caps_R^3.png')
+            else:
+                fig.write_html(img_path / 'hier_caps_R^3.html')
     else:
         if t == 'sphere':
-            fig = scatter_sphere2d(Y)
-            fig.savefig(img_path / 'hier_caps_S^1.png')
+            fig = scatter_sphere2d(Y, backend='plotly')
+            if isinstance(fig, plt.Figure):
+                fig.savefig(img_path / 'hier_caps_S^1.png')
+            else:
+                fig.write_html(img_path / 'hier_caps_S^1.html')
         else:
-            fig = scatter_euclid2d(Y)
-            fig.savefig(img_path / 'hier_caps_R^2.png')
+            fig = scatter_euclid2d(Y, backend='plotly')
+            if isinstance(fig, plt.Figure):
+                fig.savefig(img_path / 'hier_caps_R^2.png')
+            else:
+                fig.write_html(img_path / 'hier_caps_R^2.html')
 
 
 if __name__ == "__main__":

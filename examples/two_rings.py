@@ -4,6 +4,7 @@ import numpy as np
 from numpy.linalg import norm
 from psmds import ParametricSphericalMDS
 from pathlib import Path
+import matplotlib.pyplot as plt
 
 from visualize import scatter_sphere3d, scatter_euclid3d, scatter_sphere2d, scatter_euclid2d
 
@@ -76,7 +77,7 @@ def triplet_accuracy(X, Y, m=40000, seed=0):
     return float(((cXij > cXik) == (cYij > cYik)).mean())
 
 def run(target, n_components, seed=1):
-    X = make_two_rings(d=8, n_per_ring=1500, gap_deg=35.0, noise=0.03, seed=seed)
+    X = make_two_rings(d=100, n_per_ring=1500, gap_deg=35.0, noise=0.03, seed=seed)
     est = ParametricSphericalMDS(n_components=n_components, init="pca", target=target,
                                  max_iter=300, lr=0.05, n_pairs=40000,
                                  batch_size=4000, random_state=seed, verbose=0)
@@ -86,18 +87,30 @@ def run(target, n_components, seed=1):
     
     if n_components == 3:
         if t == 'sphere':
-            fig = scatter_sphere3d(Y)
-            fig.savefig(img_path / 'two_rings_S^2.png')
+            fig = scatter_sphere3d(Y, backend='plotly')
+            if isinstance(fig, plt.Figure):
+                fig.savefig(img_path / 'two_rings_S^2.png')
+            else:
+                fig.write_html(img_path / 'two_rings_S^2.html')
         else:
-            fig = scatter_euclid3d(Y)
-            fig.savefig(img_path / 'two_rings_R^3.png')
+            fig = scatter_euclid3d(Y, backend='plotly')
+            if isinstance(fig, plt.Figure):
+                fig.savefig(img_path / 'two_rings_R^3.png')
+            else:
+                fig.write_html(img_path / 'two_rings_R^3.html')
     else:
         if t == 'sphere':
-            fig = scatter_sphere2d(Y)
-            fig.savefig(img_path / 'two_rings_S^1.png')
+            fig = scatter_sphere2d(Y, backend='plotly')
+            if isinstance(fig, plt.Figure):
+                fig.savefig(img_path / 'two_rings_S^1.png')
+            else:
+                fig.write_html(img_path / 'two_rings_S^1.html')
         else:
-            fig = scatter_euclid2d(Y)
-            fig.savefig(img_path / 'two_rings_R^2.png')
+            fig = scatter_euclid2d(Y, backend='plotly')
+            if isinstance(fig, plt.Figure):
+                fig.savefig(img_path / 'two_rings_R^2.png')
+            else:
+                fig.write_html(img_path / 'two_rings_R^2.html')
 
 if __name__ == "__main__":
     for t in ("sphere", "euclid"):
